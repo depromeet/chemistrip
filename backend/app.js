@@ -10,6 +10,25 @@ var users = require('./routes/users');
 
 var app = express();
 
+
+
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+
+var showExplorer = true;
+var options = {
+	    validatorUrl : null
+};
+
+
+app.use('/chemistrip/v1/swagger.json', function(req, res) {
+		  res.json(swaggerDocument);
+});
+app.use('/chemistrip/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, showExplorer, options));
+
+
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -22,8 +41,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-app.use('/users', users);
+app.use('/chemistrip/index', index);
+app.use('/chemistrip/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
