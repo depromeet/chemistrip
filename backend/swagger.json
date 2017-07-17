@@ -1,0 +1,133 @@
+{
+	"swagger": "2.0",
+		"info": {
+			"version": "1.0.0",
+			"title": "Employee Management API"
+		},
+		"host": "localhost:3000",
+		"basePath": "/api",
+		"tags": [
+		{
+			"name" : "auth",
+			"description" : "Authentication APIs"
+		},
+		{
+			"name": "user",
+			"description": "Everything about users"
+		}
+		],
+		"paths": {
+			"/login": {
+				"post": {
+					"tags": [
+						"auth"
+					],
+					"description": "User authentication",
+					"parameters": [
+					{
+						"name": "authObj",
+						"in": "body",
+						"description": "User name",
+						"required": true,
+						"type": "string"
+					}
+					],
+					"responses": {
+						"200": {
+							"description": "Successful response",
+							"schema": {
+								"title": "AuthObj",
+								"type": "object",
+								"properties": {
+									"token": {
+										"type": "string"
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"/user": {
+				"post": {
+					"tags": [
+						"user"
+					],
+					"description": "User Store",
+					"operationId": "userStore",
+					"parameters": [
+					{
+						"name": "userObj",
+						"in": "body",
+						"description": "User name",
+						"required": true,
+						"type": "object",
+						"schema": {
+							"$ref": "#/definitions/userStoreRequest"
+						},
+						"properties" : {
+							"access_id": {
+								"type": "string"
+							},
+							"access_secret": {
+								"type": "string"
+							}
+						}
+					}
+					],
+					"responses": {
+						"200": {
+							"description": "Successful response",
+							"schema": {
+								"$ref": "#/definitions/userStoreResponse"
+							}
+						}
+					}
+				}
+			}
+		},
+		"definitions" : {
+			"userStoreResponse" : {
+				"title": "User Store Response",
+				"type": "object",
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"first_name": {
+						"type": "string"
+					},
+					"last_name": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"created_at": {
+						"type": "string"
+					},
+					"updated_at": {
+						"type": "string"
+					},
+					"deleted_at": {
+						"type": "string"
+					}
+				}
+			},
+			"userStoreRequest" : {
+				"title": "User Store Request",
+				"type": "object",
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"first_name": {
+						"type": "string"
+					},
+					"last_name": {
+						"type": "string"
+					}
+				}
+			}
+		}
+}
