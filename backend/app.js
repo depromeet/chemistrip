@@ -48,13 +48,13 @@ pool.getConnection(function(err, connection) {
 		return;
 	}
 
-	connection.query( 'select 1' , function(err, rows) {
+	connection.query( 'select 1' , function(err, results) {
 		connection.release();
 		if (err){
 			console.log(err);
 			return;
 		}
-		console.log(rows[0]);
+		console.log(results[0]);
 	});
 });
 
