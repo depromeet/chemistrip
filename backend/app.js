@@ -97,6 +97,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/chemistrip/index', index);
 app.use('/chemistrip/users', users);
 
+
+var signup = require('./routes/signup');
+app.use('/chemistrip/signup',signup);
+
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
