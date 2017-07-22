@@ -9,8 +9,8 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 
 const app = express();
-
-const mysql = require('mysql');
+import mysql from 'mysql';
+// const mysql = require('mysql');
 const db_config = require('./config/db_config.json');
 // MySQL 연동
 let connectionLimit = 20;
