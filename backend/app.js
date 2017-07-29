@@ -95,7 +95,20 @@ app.use('/chemistrip/users', users);
 
 var signup = require('./routes/signup');
 app.use('/chemistrip/signup',signup);
-
+// url - 
+// /signup
+//
+// request -
+// {
+//     "uid": "124125125124123123",
+//     "name": "jang",
+//     "email": "test@email.com"
+// }
+//
+// response -
+// {
+//     "token": "adsfasdfafasfds"
+// }
 
 
 // catch 404 and forward to error handler
