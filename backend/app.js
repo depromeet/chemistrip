@@ -42,21 +42,17 @@ pool.on('release', function (connection) {
 });
 
 pool.getConnection(function(err, connection) {
-	if( err ){
-		console.log("error 처리",err);
-		return;
-	}
+	//db test 코드
+    if( err ){
+        console.log("error 처리",err);
+        return;
+    }
 
-	connection.query( 'select 1' , function(err, rows) {
-		connection.release();
-		if (err){
-			console.log(err);
-			return;
-		};
-		console.log(rows[0]);
-	});
+    connection.ping(function (err) {
+        if (err) throw err;
+        console.log('Server responded to ping');
+    });
 });
-
 
 
 
