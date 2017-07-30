@@ -12,34 +12,34 @@ admin.initializeApp({
 });
 
 router.route('/').post(function(req,res){
-	for(let key in req.body){
-	    if(!req.body[key]){
-	        res.json({
-	            result: false,
-	            msg: "req.body."+key+"이 없습니다."
-	        });
-	        return;
-	    }
-	}
-	// if( !req.body.uid ){
-    //     res.json({
-    //         result: false,
-    //         msg: "req.body.uid이 없습니다."
-    //     });
-    //     return;
-    // }else if( !req.body.name ){
-    //     res.json({
-    //         result: false,
-    //         msg: "req.body.name이 없습니다."
-    //     });
-    //     return;
-    // }else if( !req.body.email ){
-    //     res.json({
-    //         result: false,
-    //         msg: "req.body.email이 없습니다."
-    //     });
-    //     return;
-    // }
+	// for(let key in req.body){
+	//     if(!req.body[key]){
+	//         res.json({
+	//             result: false,
+	//             msg: "req.body."+key+"이 없습니다."
+	//         });
+	//         return;
+	//     }
+	// }
+	if( !req.body.uid ){
+        res.json({
+            result: false,
+            msg: "req.body.uid이 없습니다."
+        });
+        return;
+    }else if( !req.body.name ){
+        res.json({
+            result: false,
+            msg: "req.body.name이 없습니다."
+        });
+        return;
+    }else if( !req.body.email ){
+        res.json({
+            result: false,
+            msg: "req.body.email이 없습니다."
+        });
+        return;
+    }
 
 	const uid = req.body.uid;
 	admin.auth().createCustomToken(uid)
