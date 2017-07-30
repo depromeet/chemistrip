@@ -12,7 +12,15 @@ admin.initializeApp({
 });
 
 router.route('/').post(function(req,res){
-
+	for(let key in req.body){
+	    if(!req.body[key]){
+	        res.json({
+	            result: false,
+	            msg: "req.body."+key+"이 없습니다."
+	        });
+	        return;
+	    }
+	}
 	if( !req.body.uid ){
         res.json({
             result: false,
