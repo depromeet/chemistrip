@@ -44,12 +44,7 @@ router.route('/').post(function(req,res){
 	const uid = req.body.uid;
 	admin.auth().createCustomToken(uid)
 	.then(function(customToken) {
-		res.json({
-			result: true,
-			msg: "토큰이 발급되었습니다.",
-			data : customToken
-		});
-
+		InsertQry(customToken);
 	})
   	.catch(function(error) {
 		console.log(error+Date.now());
@@ -59,42 +54,30 @@ router.route('/').post(function(req,res){
 			data: error
 		});
 	});
-	//TODO insert문 아직 안넣었다.
-	// pool.query( 'update duckmate.member set firebasToken = ? or today_alarm = ? where member_id = ?;', [ req.body.firebasetoken, req.body.today_alarm,req.body.member_id] , function( err, results ) {
-    //     if (err){
-    //         res.json({
-    //             result: false,
-    //             msg: "db 접속 에러"
-    //         });
-    //         return;
-    //     }
-    //     if( results.affectedRows === 1 ){
-    //         res.status(201).json({
-    //             result: true,
-    //             msg: "업데이트가 완료되었습니다.",
-    //         });
-    //     }else{
-    //         res.status(201).json({
-    //             result: false,
-    //             msg: "업데이트를 실패했습니다.",
-    //         });
-    //     }
-    // });
+
+	const InsertQry = (firebaseToken) => {
+		pool.query( 'INSERT INTO chemistrip.usr ( firebase_token, name, email ) VALUES (?,?,?);', [ firebaseToken, req.body.name,req.body.email] , function( err, results ) {
+		    if (err){
+		        res.json({
+		            result: false,
+		            msg: "db 접속 에러"
+		        });
+		        return;
+		    }
+		    if( results.affectedRows == 1 ){
+		        res.json({
+					result: true,
+					msg: "토큰이 발급되었습니다.",
+					data : customToken
+				});
+		    }else{
+		        res.status(201).json({
+		            result: false,
+		            msg: "디비에서 에러가 났습니다.",
+		        });
+		    }
+		});
+	};
 });
 
-
-
-/*
-request -
-{
-	    "uid": "124125125124123123",
-			    "name": "jang",
-				    "email": "test@email.com"
-}
-
-response -
-{
-	    "token": "adsfasdfafasfds"
-}
-*/
 module.exports = router;
