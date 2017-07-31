@@ -41,10 +41,29 @@ router.route('/').post(function(req,res){
         return;
     }
 
+
+
+	let regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	  
+	  
+	if(!regEmail.test(req.body.email)) {
+
+		 res.json({
+            result: false,
+            msg: "email 형식이 틀렸습니다."
+        });
+		return;
+	}
+
+
+
 	const uid = req.body.uid;
+	console.log("uid",uid);
 	admin.auth().createCustomToken(uid)
 	.then(function(customToken) {
-		InsertQry(customToken);
+		
+			console.log( customToken );
+			InsertQry( customToken );
 	})
   	.catch(function(error) {
 		console.log(error+Date.now());
@@ -60,7 +79,8 @@ router.route('/').post(function(req,res){
 		    if (err){
 		        res.json({
 		            result: false,
-		            msg: "db 접속 에러"
+		            msg: "db 접속 에러",
+					sql : this.sql
 		        });
 		        return;
 		    }
@@ -68,7 +88,7 @@ router.route('/').post(function(req,res){
 		        res.json({
 					result: true,
 					msg: "토큰이 발급되었습니다.",
-					data : customToken
+					data : firebaseToken
 				});
 		    }else{
 		        res.status(201).json({
