@@ -56,27 +56,6 @@ pool.getConnection(function(err, connection) {
 
 
 
-
-
-
-
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger.json');
-
-var showExplorer = true;
-var options = {
-	    validatorUrl : null
-};
-
-
-app.use('/chemistrip/v1/swagger.json', function(req, res) {
-		  res.json(swaggerDocument);
-});
-app.use('/chemistrip/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, showExplorer, options));
-
-
-
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -95,21 +74,6 @@ app.use('/chemistrip/users', users);
 
 var signup = require('./routes/signup');
 app.use('/chemistrip/signup',signup);
-// url - 
-// /signup
-//
-// request -
-// {
-//     "uid": "124125125124123123",
-//     "name": "jang",
-//     "email": "test@email.com"
-// }
-//
-// response -
-// {
-//     "token": "adsfasdfafasfds"
-// }
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
