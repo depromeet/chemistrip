@@ -29,6 +29,14 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
+	//예상치 못한 예외 처리
+process.on('uncaughtException', function (err) {
+
+	console.log('uncaughtException 발생 : ' + err);
+    return;
+});
+
+
 /**
  * Normalize a port into a number, string, or false.
  */
