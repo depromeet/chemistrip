@@ -12,15 +12,7 @@ admin.initializeApp({
 });
 
 router.route('/').post(function(req,res){
-	// for(let key in req.body){
-	//     if(!req.body[key]){
-	//         res.json({
-	//             result: false,
-	//             msg: "req.body."+key+"이 없습니다."
-	//         });
-	//         return;
-	//     }
-	// }
+
 	if( !req.body.uid ){
         res.json({
             result: false,
@@ -44,8 +36,8 @@ router.route('/').post(function(req,res){
 
 
 	let regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-	  
-	  
+
+
 	if(!regEmail.test(req.body.email)) {
 
 		 res.json({
@@ -61,7 +53,7 @@ router.route('/').post(function(req,res){
 	console.log("uid",uid);
 	admin.auth().createCustomToken(uid)
 	.then(function(customToken) {
-		
+
 			console.log( customToken );
 			InsertQry( customToken );
 	})
