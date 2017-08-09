@@ -1,15 +1,16 @@
 var express = require('express');
 var router = express.Router();
+var app = express();
 
 var admin = require("firebase-admin");
 
-var serviceAccount = require('../config/firebase_config.json');
+var serviceAccount = require('../../config/firebase_config.json');
 
 admin.initializeApp({
 	credential: admin.credential.cert(serviceAccount),
 });
 
-router.route('/').post(function(req,res){
+router.route('/').post((req,res) => {
 
 	if( !req.body.uid ){
         res.json({
