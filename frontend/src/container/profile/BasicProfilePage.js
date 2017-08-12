@@ -9,6 +9,7 @@ const propTypes = {
 };
 class BasicProfilePage extends Component {
     state = {
+        genderSelectedValue: 0,
         value: 1,
         yearValue: null,
         monthValue: null,
@@ -39,10 +40,17 @@ class BasicProfilePage extends Component {
             fontSize:'12px',
             color: '#bdbdbd'
         }
-        const genderButtonStyle={
-            width: '49%',
-            height: '56px',
-            border: 'solid 1px #ced4da',
+        const flatButtonByValue = (value, text) => {
+            return (<FlatButton
+                onClick={() => this.setState({genderSelectedValue: value})}
+                style={{
+                    width: '49%',
+                    height: '56px',
+                    border: 'solid 1px #ced4da',
+                    backgroundColor: (this.state.genderSelectedValue == value) ? "#2be3c7" : "#f8f9fa",
+                    color: (this.state.genderSelectedValue == value) ? "#ffffff" : "#000000"
+                }}
+            >{text}</FlatButton>)
         }
         return(
             <div>
@@ -63,7 +71,7 @@ class BasicProfilePage extends Component {
                             mappingToMenuItems(this.state.countryNames)
                         }
                     </SelectField><br/>
-                <b style={floatingStyle}>생년월일</b><br/>
+                    <b style={floatingStyle}>생년월일</b><br/>
                     <div>
                         <SelectField
                             floatingLabelText="년도"
@@ -91,16 +99,8 @@ class BasicProfilePage extends Component {
                         </SelectField>
                     </div>
                     <b style={floatingStyle}>성별</b><br/>
-                        <FlatButton
-                            backgroundColor="#f8f9fa"
-                            hoverColor="#2be3c7"
-                            style={genderButtonStyle}
-                        >남</FlatButton>
-                        <FlatButton
-                            backgroundColor="#f8f9fa"
-                            hoverColor="#2be3c7"
-                            style={genderButtonStyle}
-                        >여</FlatButton>
+                    {flatButtonByValue(0, "남")}
+                    {flatButtonByValue(1, "여")}
                 </Container>
                 <FlatButton
                     style={{

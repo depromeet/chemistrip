@@ -1,13 +1,20 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import { FormGroup, HelpBlock } from "react-bootstrap";
-import {Button } from 'semantic-ui-react';
+import {FlatButton} from 'material-ui';
 
 // Form submit component
 export default class FormSubmit extends React.Component {
   // render
   render() {
-    const {error, invalid, submitting, buttonSaveLoading, buttonSave} = this.props;
+    const {error, invalid, submitting, buttonSaveLoading, buttonSave, onTouchTap} = this.props;
+    const btStyle = {
+        width:'100%',
+	    height: '56px',
+	    borderRadius: '4px',
+	    border: 'solid 1px rgba(255, 255, 255, 0.6)',
+        color: '#ffffff'
+    }
     return (
       <div>
         {error &&
@@ -16,11 +23,13 @@ export default class FormSubmit extends React.Component {
         </FormGroup>}
 
         <FormGroup className="submit">
-          <Button color='blue' fluid type="submit" bsStyle="primary" disabled={invalid || submitting}>
+          <FlatButton
+              onTouchTap={onTouchTap}
+              hoverColor="#2be3c7" style={btStyle} color='blue' type="submit" bsStyle="primary" disabled={invalid || submitting}>
             {submitting ?
               (buttonSaveLoading ? buttonSaveLoading : 'Saving...') :
               (buttonSave ? buttonSave : 'Save')}
-          </Button>
+          </FlatButton>
         </FormGroup>
       </div>
     );

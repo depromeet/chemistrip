@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import {Button} from 'semantic-ui-react';
+import {Button, Container, Image} from 'semantic-ui-react';
 import ReactSwipe from 'react-swipe';
 import {withRouter} from 'react-router-dom';
+import {FloatingActionButton} from 'material-ui';
+
+const QNACard = ({question, imageSrc}) => (
+    <Container text textAlign="center">
+        <p>{question}</p>
+        <Image src={imageSrc} />
+    </Container>
+)
 
 class QNAPage extends Component {
     constructor(props){
@@ -11,8 +19,19 @@ class QNAPage extends Component {
 
         this.state = {
             swipeIndex: 0,
-            questions: [
-                "질문 1","질문 2", "질문 3", "질문 종료!!"
+            questionDatas: [
+                {
+                    question: "질문 1",
+                    imageSrc: "/test.png"
+                },
+                {
+                    question: "질문 2",
+                    imageSrc: "/test.png"
+                },
+                {
+                    question: "질문 종료!",
+                    imageSrc: "/test.png"
+                }
             ],
             answer: [
                 true, true, true
@@ -22,7 +41,7 @@ class QNAPage extends Component {
     OXCallBack = (bOX) => {
         this.refs.reactSwipe.next();
 
-        if(this.state.swipeIndex+1 >= this.state.questions.length)
+        if(this.state.swipeIndex+1 >= this.state.questionDatas.length)
             this.props.history.push('/date-selection');
 
         let cpAnswer = this.state.answer;
@@ -36,10 +55,12 @@ class QNAPage extends Component {
         console.log(this.state.answer);
     }
     render() {
-        const questionMaps = (questions) => {
-            return questions.map( (question, i) => {
+        const questionMaps = (questionDatas) => {
+            return questionDatas.map( (questionData, i) => {
                 return (
-                    <div>{question}</div>
+                    <div>
+                        <QNACard question={questionData.question} imageSrc={questionData.imageSrc}/>
+                    </div>
                 );
             });
         }
@@ -55,13 +76,13 @@ class QNAPage extends Component {
                                 });
                             }
                         }}>
-	                {questionMaps(this.state.questions)}
+	                {questionMaps(this.state.questionDatas)}
             	</ReactSwipe>
-				<div>
-		          <Button onClick={() => {this.OXCallBack(true)}}>O</Button>
-		          <Button onClick={() => {this.OXCallBack(false)}}>X</Button>
-				  <Button onClick={() => {this.refs.reactSwipe.prev()}}>이전</Button>
-		        </div>
+				<Container text textAlign="center">
+		            <FloatingActionButton onClick={() => {this.OXCallBack(true)}}/>
+		            <FloatingActionButton onClick={() => {this.OXCallBack(false)}}/>
+				    <FloatingActionButton onClick={() => {this.refs.reactSwipe.prev()}}/>
+		        </Container>
             </div>
         );
     }

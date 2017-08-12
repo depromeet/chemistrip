@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Field, SubmissionError, reduxForm } from "redux-form";
 import { Form } from "react-bootstrap";
-import { Container, Header, Button } from 'semantic-ui-react';
+import { Container, Header, Button, Icon } from 'semantic-ui-react';
 import {LinkContainer} from 'react-router-bootstrap';
 
 import FormField from "../../components/auth/common/FormField";
@@ -10,39 +10,95 @@ import FormSubmit from "../../components/auth/common/FormSubmit";
 import CenteredComponent from '../../common/CenteredComponent';
 
 import config from '../../firebase_config.json';
-import firebase from 'firebase';
+import {TextField, FlatButton} from 'material-ui';
 
+const tfStyle={
+    color: '#ffffff',
+}
+
+class LoginInputField extends React.Component{
+    render(){
+        const {doValidate, meta} = this.props;
+        if (doValidate) {
+          return (
+              <div>
+            {this.content()}
+            </div>
+          );
+        } else {
+          return (
+              <div>
+                  {this.content()}
+              </div>
+          );
+        }
+    }
+    content = () => {
+        const {type, errorText, placeholder, iconName} = this.props;
+        return(
+            <div>
+                <Icon name={iconName} style={{color:'#ffffff'}}/>
+                <div style={{width: '90%', display: 'inline-block'}}>
+                    <TextField
+                        hintText={placeholder}
+                        hintStyle={tfStyle}
+                        inputStyle={tfStyle}
+                        errorText={errorText}
+                        fullWidth={true}
+                        type={type}
+                        underlineFocusStyle={{borderColor: '#2be3c7'}}
+                    />
+                </div>
+            </div>
+        );
+    }
+}
 export class Login extends React.Component {
-
+    state = {
+        isLoginButtonSelected: false
+    }
     // constructor
     constructor(props) {
         super(props);
 
         this.formSubmit = this.formSubmit.bind(this);
     }
+    handleUsernameInput = (value) => {
+    }
+    handlePasswordInput = (value) => {
+    }
     // render
     render() {
         const {user, handleSubmit, error, invalid, submitting} = this.props;
+        const btStyle = {
+            width: '48%',
+    	    height: '56px',
+    	    borderRadius: '4px',
+    	    border: 'solid 1px rgba(255, 255, 255, 0.6)',
+            color: '#ffffff',
+        }
         return (
-            <CenteredComponent>
-                <Container text>
-                    <Header style={{marginBottom: '30px'}}>트렌즈 - 친구들과 여행을</Header>
-                    <Form onSubmit={handleSubmit(this.formSubmit)}>
-                        <Field component={FormField} name="username" label="아이디" placeholder="아이디를 입력하세요." doValidate={true}/>
-                        <Field type="password" component={FormField} name="password" placeholder="비밀번호를 입력하세요" label="비밀번호" doValidate={true}/>
-
-                        <FormSubmit error={error} invalid={invalid} submitting={submitting} buttonSaveLoading="로그인 중..."
-                            buttonSave="로그인"/>
-                    </Form>
-                </Container>
-                <Container text textAlign="right">
-                    <LinkContainer to="/signup">
-                        <Button.Group floated='right'>
-                            <Button>회원가입</Button>
-                        </Button.Group>
-                    </LinkContainer>
-                </Container>
-            </CenteredComponent>
+            <div style={{
+                    backgroundImage: 'linear-gradient(151deg, #2be3c7, #2ab8f5)',
+                }}>
+                <CenteredComponent>
+                    <Container text>
+                        <Container textAlign="center" style={{color: '#ffffff', marginTop: '130px', marginBottom: '80px'}}>케미스트립</Container>
+                        <Form onSubmit={handleSubmit(this.formSubmit)}>
+                            <Field component={LoginInputField} name="username" placeholder="Username" iconName="user" doValidate={true}/>
+                            <Field component={LoginInputField} name="password" type="password" placeholder="Password" iconName="lock" doValidate={true}/>
+                            <br/>
+                            <FormSubmit error="" submitting={submitting} buttonSaveLoading="Logging..."
+                                buttonSave="Login"/>
+                            <Container style={{color: '#ffffff', fontSize: '12px'}} textAlign="center">or</Container>
+                        </Form>
+                        <Container textAlign="center" style={{marginTop: '10px', marginBottom: '400px'}}>
+                            <FlatButton style={btStyle} hoverColor="#2be3c7">google</FlatButton>&nbsp;
+                            <FlatButton style={btStyle} hoverColor="#2be3c7">facebook</FlatButton>
+                        </Container>
+                    </Container>
+                </CenteredComponent>
+            </div>
         );
     }
 

@@ -1,5 +1,6 @@
-import reducers from './reducers';
+import reducers, {rootSaga} from './reducers.js';
 
 export{
     reducers,
-}
+    rootSaga
+};

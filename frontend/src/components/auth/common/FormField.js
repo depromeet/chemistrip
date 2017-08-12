@@ -29,18 +29,13 @@ export default class FormField extends React.Component {
 
   // the field content
   content() {
-    const {theme, label} = this.props;
-    if ('other_theme' === theme) {
-      // layout for some other theme
-    } else {
-      // default theme: 2col
-      return (
+    const {label} = this.props;
+    return (
         <Row>
           <Col sm={3}>{label}</Col>
           <Col sm={9}>{this.field()}</Col>
         </Row>
-      );
-    }
+    );
   }
 
   // the field itself
