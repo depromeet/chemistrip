@@ -1,14 +1,67 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 
-var app = express();
+const app = express();
+
+const mysql = require('mysql');
+const db_config = require('./config/db_config.json');
+// MySQL 연동
+let connectionLimit = 20;
+//db connection 몇개 남았는 지 알려줘서 보내는 코드
+
+global.pool = mysql.createPool({
+	host : db_config.host,
+	port : db_config.port,
+	user : db_config.user,
+	password : db_config.password,
+	database : db_config.database,
+	connectionLimit : db_config.connectionLimit
+});
+
+let LeftConnections = connectionLimit;
+pool.on('acquire', function (connection) {
+	LeftConnections--;
+	if( LeftConnections < 5 ){
+		console.log("DB Connections이 5개 밖에 남지 않았습니다!");
+	}
+});
+
+pool.on('enqueue', function () {
+	console.log("DB Connections이 고갈됨");
+
+});
+
+pool.on('release', function (connection) {
+	LeftConnections++;
+});
+
+pool.getConnection(function(err, connection) {
+	if( err ){
+		console.log("error 처리",err);
+		return;
+	}
+
+	connection.query( 'select 1' , function(err, results) {
+		connection.release();
+		if (err){
+			console.log(err);
+			return;
+		}
+		console.log(results[0]);
+	});
+});
+
+
+
+
+
 
 
 
