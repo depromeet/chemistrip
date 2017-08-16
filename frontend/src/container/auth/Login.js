@@ -81,23 +81,22 @@ export class Login extends React.Component {
             <div style={{
                     backgroundImage: 'linear-gradient(151deg, #2be3c7, #2ab8f5)',
                 }}>
-                <CenteredComponent>
-                    <Container text>
-                        <Container textAlign="center" style={{color: '#ffffff', marginTop: '130px', marginBottom: '80px'}}>케미스트립</Container>
-                        <Form onSubmit={handleSubmit(this.formSubmit)}>
-                            <Field component={LoginInputField} name="username" placeholder="Username" iconName="user" doValidate={true}/>
-                            <Field component={LoginInputField} name="password" type="password" placeholder="Password" iconName="lock" doValidate={true}/>
-                            <br/>
-                            <FormSubmit error="" submitting={submitting} buttonSaveLoading="Logging..."
-                                buttonSave="Login"/>
-                            <Container style={{color: '#ffffff', fontSize: '12px'}} textAlign="center">or</Container>
-                        </Form>
-                        <Container textAlign="center" style={{marginTop: '10px', marginBottom: '400px'}}>
-                            <FlatButton style={btStyle} hoverColor="#2be3c7">google</FlatButton>&nbsp;
-                            <FlatButton style={btStyle} hoverColor="#2be3c7">facebook</FlatButton>
-                        </Container>
+
+                <Container text>
+                    <Container textAlign="center" style={{color: '#ffffff', marginTop: '130px', marginBottom: '80px'}}>케미스트립</Container>
+                    <Form onSubmit={handleSubmit(this.formSubmit)}>
+                        <Field component={LoginInputField} name="username" placeholder="Username" iconName="user" doValidate={true}/>
+                        <Field component={LoginInputField} name="password" type="password" placeholder="Password" iconName="lock" doValidate={true}/>
+                        <br/>
+                        <FormSubmit error="" submitting={submitting} buttonSaveLoading="Logging..."
+                            buttonSave="케미스트립 계정으로 시작하기"/>
+                        <Container style={{color: '#ffffff', fontSize: '12px'}} textAlign="center">or</Container>
+                    </Form>
+                    <Container textAlign="center" style={{marginTop: '10px', marginBottom: '400px'}}>
+                        <FlatButton style={btStyle} hoverColor="#2be3c7">google</FlatButton>&nbsp;
+                        <FlatButton style={btStyle} hoverColor="#2be3c7">facebook</FlatButton>
                     </Container>
-                </CenteredComponent>
+                </Container>
             </div>
         );
     }
