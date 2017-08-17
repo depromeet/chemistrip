@@ -1,122 +1,58 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Field, SubmissionError, reduxForm } from "redux-form";
-import { Form } from "react-bootstrap";
-import { Container, Header, Button, Icon } from 'semantic-ui-react';
-import {LinkContainer} from 'react-router-bootstrap';
-
-import FormField from "../../components/auth/common/FormField";
-import FormSubmit from "../../components/auth/common/FormSubmit";
-import CenteredComponent from '../../common/CenteredComponent';
-
+import React, {Component} from 'react';
 import config from '../../firebase_config.json';
-import {TextField, FlatButton} from 'material-ui';
+import * as firebase from 'firebase';
+import {LoginForm} from '../../components/auth';
+import {withRouter} from 'react-router-dom';
+import {Confirm} from 'semantic-ui-react';
 
-const tfStyle={
-    color: '#ffffff',
-}
+firebase.initializeApp(config);
 
-class LoginInputField extends React.Component{
-    render(){
-        const {doValidate, meta} = this.props;
-        if (doValidate) {
-          return (
-              <div>
-            {this.content()}
-            </div>
-          );
-        } else {
-          return (
-              <div>
-                  {this.content()}
-              </div>
-          );
-        }
+class Login extends Component {
+    state = {
+        submitting : false,
+        open: false,
+        message: "",
     }
-    content = () => {
-        const {type, errorText, placeholder, iconName} = this.props;
+    show = (message) => this.setState({open: true, message})
+    handleConfirm = () => this.setState({open: false })
+    handleCancel = () => this.setState({ open: false })
+
+    handleSubmit = async (values) => {
+        this.setState({submitting : true});
+
+        const that = this;
+
+        await firebase.auth().signInWithEmailAndPassword(values.email, values.password)
+        .then(function(response){
+            console.log(response.code);
+            that.props.history.push("/profile-input");
+        })
+        .catch(function(error) {
+            if(error.code === 'auth/user-not-found')
+            {
+                firebase.auth().createUserWithEmailAndPassword(values.email, values.password).catch(function(error) {
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+
+                    console.log(errorCode, errorMessage);
+                });
+                console.log(error.code, error.message);
+            }
+            else if(error.code === 'auth/wrong-password')
+            {
+                console.log("잘못된 패스워드입니다");
+            }
+            else
+            {
+            }
+        });
+    }
+    render() {
         return(
             <div>
-                <Icon name={iconName} style={{color:'#ffffff'}}/>
-                <div style={{width: '90%', display: 'inline-block'}}>
-                    <TextField
-                        hintText={placeholder}
-                        hintStyle={tfStyle}
-                        inputStyle={tfStyle}
-                        errorText={errorText}
-                        fullWidth={true}
-                        type={type}
-                        underlineFocusStyle={{borderColor: '#2be3c7'}}
-                    />
-                </div>
+                <LoginForm onSubmit={this.handleSubmit} initialValues={{submitting: this.state.submitting}}/>
             </div>
         );
     }
 }
-export class Login extends React.Component {
-    state = {
-        isLoginButtonSelected: false
-    }
-    // constructor
-    constructor(props) {
-        super(props);
-
-        this.formSubmit = this.formSubmit.bind(this);
-    }
-    handleUsernameInput = (value) => {
-    }
-    handlePasswordInput = (value) => {
-    }
-    // render
-    render() {
-        const {user, handleSubmit, error, invalid, submitting} = this.props;
-        const btStyle = {
-            width: '48%',
-    	    height: '56px',
-    	    borderRadius: '4px',
-    	    border: 'solid 1px rgba(255, 255, 255, 0.6)',
-            color: '#ffffff',
-        }
-        return (
-            <div style={{
-                    backgroundImage: 'linear-gradient(151deg, #2be3c7, #2ab8f5)',
-                }}>
-
-                <Container text>
-                    <Container textAlign="center" style={{color: '#ffffff', marginTop: '130px', marginBottom: '80px'}}>케미스트립</Container>
-                    <Form onSubmit={handleSubmit(this.formSubmit)}>
-                        <Field component={LoginInputField} name="username" placeholder="Username" iconName="user" doValidate={true}/>
-                        <Field component={LoginInputField} name="password" type="password" placeholder="Password" iconName="lock" doValidate={true}/>
-                        <br/>
-                        <FormSubmit error="" submitting={submitting} buttonSaveLoading="Logging..."
-                            buttonSave="케미스트립 계정으로 시작하기"/>
-                        <Container style={{color: '#ffffff', fontSize: '12px'}} textAlign="center">or</Container>
-                    </Form>
-                    <Container textAlign="center" style={{marginTop: '10px', marginBottom: '400px'}}>
-                        <FlatButton style={btStyle} hoverColor="#2be3c7">google</FlatButton>&nbsp;
-                        <FlatButton style={btStyle} hoverColor="#2be3c7">facebook</FlatButton>
-                    </Container>
-                </Container>
-            </div>
-        );
-    }
-
-    // submit the form
-    formSubmit(values) {
-        console.log(values);
-    }
-}
-
-export default reduxForm({
-    form: 'login',
-    validate: function (values) {
-        const errors = {};
-        if(!values.username){
-            errors.username = '아이디를 입력하세요';
-        }
-        if(!values.password){
-            errors.password = '패스워드를 입력하세요';
-        }
-        return errors;
-    },
-})(Login);
+export default withRouter(Login);

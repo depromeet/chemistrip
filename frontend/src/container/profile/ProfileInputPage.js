@@ -57,13 +57,16 @@ class ProfileInputPage extends Component {
             countryName: this.state.countryNames[this.state.value-1],
             token: localStorage.getItem('chemistrip_token')
         };
+        const history = this.props.history;
+
         await Promise.all([axios.post(DEFAULT_REQUEST_URL + '/basic-profile/',sendValues)
                 .then(response => {
                     console.log(response.data);
-                    this.props.history.push("/preference");
+                    history.push("/qna");
                 })
                 .catch(error => {
                     console.log(error);
+                    history.push("/qna");
                 })
             ]);
     }
