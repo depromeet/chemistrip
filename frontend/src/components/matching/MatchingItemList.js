@@ -2,21 +2,21 @@ import React from 'react';
 import MatchingItem from './MatchingItem';
 import {List, Divider} from 'material-ui';
 
-const mapToComponent = (datas) => {
-    return datas.map( (data) => {
-        return (
-            <div>
-                <MatchingItem
-                        {...data}
-                    />
-                <Divider inset={true} />
-            </div>
-        );
-    });
-}
-const MatchingItemList = ({datas}) => (
+const MatchingItemList = ({itemClickCallback, datas}) => (
     <List>
-        {mapToComponent(datas)}
+        {
+            datas.map( (data) => {
+                return (
+                    <div>
+                        <MatchingItem
+                                itemClickCallback={itemClickCallback}
+                                {...data}
+                            />
+                        <Divider inset={true} />
+                    </div>
+                );
+            })
+        }
     </List>
 )
 

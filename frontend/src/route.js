@@ -3,7 +3,7 @@ import App from './App';
 import {NavigationBar, NotFound} from './components/tools';
 
 import {Login, SignUp} from './container/auth';
-import {ProfileInputPage} from './container/profile';
+import {ProfileInputPage, ProfileDetailPage} from './container/profile';
 import {QNAPage} from './container/qna';
 import MatchingResultPage from './container/matching/MatchingResultPage';
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
@@ -18,6 +18,7 @@ const route = (
                 <Route path="/signup" component={SignUp} />
                 <Route path="/qna" component={QNAPage} />
                 <Route path="/matching-result" component={MatchingResultPage} />
+                <Route path="/profile-detail" component={ProfileDetailPage} />
                 <Route component={NotFound} />
             </Switch>
         </div>

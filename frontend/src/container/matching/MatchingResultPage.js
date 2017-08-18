@@ -5,6 +5,7 @@ import {Container} from 'semantic-ui-react';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import {withRouter} from 'react-router-dom';
 
 class MatchingResultPage extends Component {
     state = {
@@ -38,9 +39,10 @@ class MatchingResultPage extends Component {
                     />
                 <MatchingItemList
                     datas={this.state.datas}
+                    itemClickCallback={() => this.props.history.push('/profile-detail')}
                     />
             </Container>
         );
     }
 }
-export default MatchingResultPage;
+export default withRouter(MatchingResultPage);

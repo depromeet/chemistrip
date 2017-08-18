@@ -5,12 +5,16 @@ import {Button, Container, Image} from 'semantic-ui-react';
 import ReactSwipe from 'react-swipe';
 import {withRouter} from 'react-router-dom';
 import {FloatingActionButton} from 'material-ui';
+import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
+import AppBar from 'material-ui/AppBar';
+import IconButton from 'material-ui/IconButton';
 
 const QNACard = ({question, imageSrc}) => (
-    <Container text textAlign="center">
-        <p>{question}</p>
-        <Image src={imageSrc} />
-    </Container>
+    <div style={{textAlign: 'center'}}>
+        <p style={{marginTop: '50px', fontSize: '23px'}}>{question}</p>
+        <Image src={imageSrc} style={{marginTop: '49px'}}/>
+    </div>
 )
 
 class QNAPage extends Component {
@@ -21,7 +25,7 @@ class QNAPage extends Component {
             swipeIndex: 0,
             questionDatas: [
                 {
-                    question: "질문 1",
+                    question: "레저스포츠 좋아하세요?",
                     imageSrc: "/test.png"
                 },
                 {
@@ -42,7 +46,7 @@ class QNAPage extends Component {
         this.refs.reactSwipe.next();
 
         if(this.state.swipeIndex+1 >= this.state.questionDatas.length)
-            this.props.history.push('/date-selection');
+            this.props.history.push('/matching-result');
 
         let cpAnswer = this.state.answer;
         cpAnswer[this.state.swipeIndex] = bOX;
@@ -66,22 +70,33 @@ class QNAPage extends Component {
         }
         return(
             <div>
-				<ReactSwipe
-                    ref="reactSwipe"
-                    swipeOptions={{
-                            continuous: false,
-                            callback: (index, elem) => {
-                                this.setState({
-                                    swipeIndex: index,
-                                });
-                            }
-                        }}>
-	                {questionMaps(this.state.questionDatas)}
-            	</ReactSwipe>
 				<Container text textAlign="center">
-		            <FloatingActionButton onClick={() => {this.OXCallBack(true)}}/>
-		            <FloatingActionButton onClick={() => {this.OXCallBack(false)}}/>
-				    <FloatingActionButton onClick={() => {this.refs.reactSwipe.prev()}}/>
+                    <AppBar
+                        title={<span>{this.state.swipeIndex+1}/{this.state.questionDatas.length}</span>}
+                        iconElementLeft={<IconButton><NavigationClose /></IconButton>}
+                        />
+    				<ReactSwipe
+                        ref="reactSwipe"
+                        swipeOptions={{
+                                continuous: false,
+                                callback: (index, elem) => {
+                                    this.setState({
+                                        swipeIndex: index,
+                                    });
+                                }
+                            }}>
+    	                {questionMaps(this.state.questionDatas)}
+                	</ReactSwipe>
+		            <FloatingActionButton backgroundColor='#2ab8f5' onClick={() => {this.OXCallBack(false)}}>
+                        <NavigationClose />
+                    </FloatingActionButton>
+				    <span style={{display: 'inline-block', color: '#b2b2b2', marginLeft: '32px', marginRight: '32px', marginBottom: '15px', cursor: 'pointer'}}
+                        onClick={() => {this.refs.reactSwipe.prev()}}>
+                        prev
+                    </span>
+                    <FloatingActionButton backgroundColor='#2be3c7' onClick={() => {this.OXCallBack(true)}}>
+                        <ActionFavoriteBorder />
+		            </FloatingActionButton>
 		        </Container>
             </div>
         );
