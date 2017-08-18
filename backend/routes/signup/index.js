@@ -12,30 +12,36 @@ admin.initializeApp({
 
 router.route('/').post((req,res) => {
 
-	if( !req.body.uid ){
-        res.json({
-            result: false,
-            msg: "req.body.uid이 없습니다."
-        });
-        return;
-    }else if( !req.body.name ){
-        res.json({
-            result: false,
-            msg: "req.body.name이 없습니다."
-        });
-        return;
-    }else if( !req.body.email ){
-        res.json({
-            result: false,
-            msg: "req.body.email이 없습니다."
-        });
-        return;
+	let properties = ['uid','name','email'];
+    for(let i=0; i< properties.length;i++){
+        if(!req.body.hasOwnProperty(properties[i])){
+            res.json({
+                result: false,
+                msg: "req.body."+properties[i]+"이 없습니다."
+            });
+            return;
+        }
     }
 
-
+	pool.query( 'select 1 from duckmate.member where firebase_uid = ?', [ req.body.uid ] , function( err, rows ) {
+		if (err){
+			res.json({
+				result: false,
+				msg: "db 접속 에러",
+				qry: this.sql
+			});
+			return;
+		}
+		if( rows.length === 0 ){
+			res.status(201).json({
+				result: false,
+				msg: "이미 등록된 uid입니다.",
+			});
+			return;
+		}
+	});
 
 	let regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
 
 	if(!regEmail.test(req.body.email)) {
 
@@ -45,8 +51,6 @@ router.route('/').post((req,res) => {
         });
 		return;
 	}
-
-
 
 	const uid = req.body.uid;
 	console.log("uid",uid);
