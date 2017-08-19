@@ -23,7 +23,7 @@ router.route('/').post((req,res) => {
         }
     }
 
-	pool.query( 'select 1 from duckmate.member where uid = ?', [ req.body.uid ] , function( err, rows ) {
+	pool.query( 'select 1 from chemistrip.usr where uid = ?', [ req.body.uid ] , function( err, rows ) {
 		if (err){
 			res.json({
 				result: false,
