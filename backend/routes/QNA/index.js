@@ -14,7 +14,7 @@ router.route('/').post((req,res) => {
             return;
         }
     }
-    pool.query( 'update chemistrip.usr set answer = ? where firebaseToken = ?;' , [ req.body.answer,  req.body.firebaseToken ] , function(err, rows) {
+    pool.query( 'update chemistrip.usr set answer = ? where firebaseToken = ?;' , [ req.body.answer,  req.body.firebaseToken ] , function(err, results) {
 		if (err){
 			res.json({
 				result: false,
