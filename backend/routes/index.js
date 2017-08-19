@@ -18,7 +18,7 @@ router.use((req, res, next)=>{
         firebaseToken = rqstMethodCheck.firebaseToken ;
     }
 
-	pool.query( 'select 1 from duckmate.member where firebaseToken = ?;' ,[ firebaseToken ] , (err,rows)=>{
+	pool.query( 'select 1 from chemistrip.usr where firebaseToken = ?;' ,[ firebaseToken ] , (err,rows)=>{
         // TODO 은행업무중에서 헤리슨님한테 -10 나 +10해야하는데
         // 헤리슨님 -10하고 죽음 안되니까 transaction을 써야한다
         if (err){
