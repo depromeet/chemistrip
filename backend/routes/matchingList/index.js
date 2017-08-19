@@ -3,6 +3,27 @@ var router = express.Router();
 var app = express();
 
 router.route('/').get((req,res) => {
+    let mainAnswer;
+    pool.query( 'select answer from chemistrip.usr where firebaseToken = ?',[req.query.firebaseToken] , function(err, rows) {
+        if (err){
+			res.json({
+				result: false,
+				msg: "db 접속 에러",
+				qry: this.sql
+			});
+			return;
+		}
+        if( rows.length === 1 ){
+            mainAnswer = rows[0].answer;
+            console.log("mainAnswer",mainAnswer);
+		}else{
+            res.status(201).json({
+				result: true,
+				message: "answer이 등록되어 있지 않습니다",
+			});
+            return;
+        }
+    }
 
     pool.query( 'select id,name,minDate,maxDate,gender,answer from chemistrip.usr' , function(err, rows) {
 		if (err){
@@ -20,8 +41,7 @@ router.route('/').get((req,res) => {
         }catch(e){
             console.log("JSON.stringify, JSON.parse error ",e);
         }
-        console.log(typeof rows);
-        console.log(typeof rows[0].answer);
+
         res.send(rows);
 		// if( rows.length === 1 ){
 		// 	res.status(201).json({
