@@ -36,18 +36,18 @@ router.route('/').get((req,res) => {
     			return;
     		}
             console.log("before transforming rows's value",rows);
-            
-			try{ rows = JSON.parse( JSON.stringify (rows)); } 
+
+			try{ rows = JSON.parse( JSON.stringify (rows)); }
 			catch(e){ console.log("JSON.stringify, JSON.parse error ",e); }
             console.log("after transforming rows's value",rows);
-			
-			
+
+
 
 			let arr = [];
 			for(let i = 0; i< rows.length ; i++)
 				arr.push(JSON.parse( rows[i].answer));
 
-           	
+
 			let ScoreArr = [];
 			for(let i = 0 ; i< arr.length ; i++){
 
@@ -75,19 +75,22 @@ router.route('/').get((req,res) => {
 
 			}
 
-		
+
 			for( let i =0 ; i<rows.length ; i++)
-			{	
-				
-				
+			{
+
+
 				let Row = rows[i];
-				
+
 				Row.matchingPercent = ScoreArr[i];
 			}
-			
-			
-			console.log(typeof rows[0],rows[0]);
-			res.send(rows);
+
+
+            res.status(201).json({
+				result: true,
+				message: "answer이 등록되어 있지 않습니다",
+                datas : rows
+			});
     		// if( rows.length === 1 ){
     		// 	res.status(201).json({
     		// 		result: true,
