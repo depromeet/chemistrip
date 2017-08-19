@@ -44,10 +44,10 @@ router.use((req, res, next)=>{
 
 const profileInput = require('./profileInput');
 router.use('/profileInput',profileInput);
-/*
+
 const QNA = require('./QNA');
 router.use('/QNA',QNA);
-
+/*
 const matchingList = require('./matchingList');
 router.use('/matchingList',matchingList);
 
