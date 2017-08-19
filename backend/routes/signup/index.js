@@ -70,7 +70,7 @@ router.route('/').post((req,res) => {
 	});
 
 	const InsertQry = (firebaseToken) => {
-		pool.query( 'INSERT INTO chemistrip.usr ( firebase_token, name, email ) VALUES (?,?,?);', [ firebaseToken, req.body.name,req.body.email] , function( err, results ) {
+		pool.query( 'INSERT INTO chemistrip.usr ( firebaseToken, name, email ) VALUES (?,?,?);', [ firebaseToken, req.body.name,req.body.email] , function( err, results ) {
 		    if (err){
 		        res.json({
 		            result: false,
