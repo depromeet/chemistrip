@@ -16,8 +16,10 @@ router.route('/').get((req,res) => {
 		}
         console.log(rows);
         console.log(rows[0]);
-        rows[0] = JSON.parse(JSON.stringify(rows[0]));
+        rows = JSON.parse(JSON.stringify(rows[0]));
 
+        res.send(rows);
+        return;
         let scheduleDuration = ''+rows[0].minDate+'~'+rows[0].maxDate+'';
 
         let UserDatas;
