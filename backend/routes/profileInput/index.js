@@ -14,7 +14,7 @@ router.route('/').post((req,res) => {
             return;
         }
     }
-    pool.query( 'insert ignore into chemistrip.usr (gender,birthDate,country,name,destination,minDate,maxDate,minAge,maxAge,preferenceGender,memberCount,firebaseToken) VALUES (?,?,?);' , [ req.body.gender,req.body.birthDate,req.body.country,req.body.name,req.body.destination,req.body.minDate,req.body.maxDate,req.body.minAge,req.body.maxAge,req.body.preferenceGender,req.body.memberCount,req.body.firebaseToken ] , function(err, results) {
+    pool.query( 'insert ignore into chemistrip.usr (gender,birthDate,country,name,destination,minDate,maxDate,minAge,maxAge,preferenceGender,memberCount,firebaseToken) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);' , [ req.body.gender, req.body.birthDate,req.body.country,req.body.name,req.body.destination,req.body.minDate,req.body.maxDate,req.body.minAge,req.body.maxAge,req.body.preferenceGender,req.body.memberCount,req.body.firebaseToken ] , function(err, results) {
 		if (err){
 			res.json({
 				result: false,
