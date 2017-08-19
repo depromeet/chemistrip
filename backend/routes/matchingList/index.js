@@ -13,7 +13,7 @@ router.route('/').get((req,res) => {
 			});
 			return;
 		}
-        console.log("rows's value",rows[0]);
+        console.log("rows's value",rows);
 
         try{
             rows = JSON.parse( JSON.stringify(rows[0]) );
