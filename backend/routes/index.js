@@ -47,10 +47,10 @@ router.use('/profileInput',profileInput);
 
 const QNA = require('./QNA');
 router.use('/QNA',QNA);
-/*
+
 const matchingList = require('./matchingList');
 router.use('/matchingList',matchingList);
-
+/*
 const profileDetail = require('./profileDetail');
 router.use('/profileDetail',profileDetail);
 
