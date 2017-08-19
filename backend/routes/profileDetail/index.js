@@ -15,6 +15,7 @@ router.route('/').get((req,res) => {
 			return;
 		}
         console.log(rows);
+        rows = rows[0];
 
         let scheduleDuration = ''+rows[0].minDate+'~'+rows[0].maxDate+'';
 
