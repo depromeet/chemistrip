@@ -16,10 +16,12 @@ router.route('/').get((req,res) => {
         console.log("rows's value",rows);
 
         try{
-            rows = JSON.parse( JSON.stringify(rows[0]) );
+            rows = JSON.parse( JSON.stringify(rows) );
         }catch(e){
             console.log("JSON.stringify, JSON.parse error ",e);
         }
+        console.log(typeof rows);
+        console.log(typeof rows[0].answer);
         res.send(rows);
 		// if( rows.length === 1 ){
 		// 	res.status(201).json({
