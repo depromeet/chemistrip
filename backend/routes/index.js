@@ -5,9 +5,6 @@ const router = express.Router();
 const signup = require('./signup');
 router.use('/signup',signup);
 
-const profileInput = require('./profileInput');
-router.use('/profileInput',profileInput);
-
 router.use((req, res, next)=>{
     let firebaseToken;
     let rqstMethodCheck = (req.method == 'GET') ? req.query : req.body;
@@ -45,6 +42,8 @@ router.use((req, res, next)=>{
     });
 });
 
+const profileInput = require('./profileInput');
+router.use('/profileInput',profileInput);
 /*
 const QNA = require('./QNA');
 router.use('/QNA',QNA);
