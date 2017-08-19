@@ -50,11 +50,8 @@ router.use('/QNA',QNA);
 
 const matchingList = require('./matchingList');
 router.use('/matchingList',matchingList);
-/*
+
 const profileDetail = require('./profileDetail');
 router.use('/profileDetail',profileDetail);
-
-*/
-
 
 module.exports = router;

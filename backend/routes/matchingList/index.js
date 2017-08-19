@@ -91,19 +91,7 @@ router.route('/').get((req,res) => {
 				message: "answer이 등록되어 있지 않습니다",
                 datas : rows
 			});
-    		// if( rows.length === 1 ){
-    		// 	res.status(201).json({
-    		// 		result: true,
-    		// 		message: "회원정보 입력이 완료되었습니다.",
-    		// 	});
-    		// 	return;
-    		// }else{
-            //     res.status(201).json({
-    		// 		result: false,
-    		// 		message: "회원정보가 잘못입력되었습니다.",
-    		// 	});
-    		// 	return;
-            // }
+    	
     	});
     };
 
