@@ -18,24 +18,22 @@ router.route('/').get((req,res) => {
         console.log(rows[0]);
         rows = JSON.parse(JSON.stringify(rows[0]));
 
-        res.send(rows);
-        return;
-        let scheduleDuration = ''+rows[0].minDate+'~'+rows[0].maxDate+'';
+        let scheduleDuration = ''+rows.minDate+'~'+rows.maxDate+'';
 
         let UserDatas;
-        UserDatas.name = rows[0].name;
-        UserDatas.country = rows[0].country;
-        UserDatas.gender = rows[0].gender;
+        UserDatas.name = rows.name;
+        UserDatas.country = rows.country;
+        UserDatas.gender = rows.gender;
 
         let Schedule;
-        Schedule.destination = rows[0].destination;
+        Schedule.destination = rows.destination;
         Schedule.schedule = scheduleDuration;
 
 
         let Data;
         Data.userDatas = UserDatas;
         Data.scheduleDatas = Schedule;
-        Data.answer = rows[0].answer;
+        Data.answer = rows.answer;
 
 
         console.log(Data);
