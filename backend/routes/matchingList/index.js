@@ -23,7 +23,7 @@ router.route('/').get((req,res) => {
 			});
             return;
         }
-    }
+    });
 
     pool.query( 'select id,name,minDate,maxDate,gender,answer from chemistrip.usr' , function(err, rows) {
 		if (err){
