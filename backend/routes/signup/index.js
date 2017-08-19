@@ -12,7 +12,7 @@ admin.initializeApp({
 
 router.route('/').post((req,res) => {
 
-	let properties = ['firebase_uid','name','email'];
+	let properties = ['uid','name','email'];
     for(let i=0; i< properties.length;i++){
         if(!req.body.hasOwnProperty(properties[i])){
             res.json({
@@ -23,7 +23,7 @@ router.route('/').post((req,res) => {
         }
     }
 
-	pool.query( 'select 1 from duckmate.member where firebase_firebase_uid = ?', [ req.body.firebase_uid ] , function( err, rows ) {
+	pool.query( 'select 1 from duckmate.member where uid = ?', [ req.body.uid ] , function( err, rows ) {
 		if (err){
 			res.json({
 				result: false,
@@ -35,7 +35,7 @@ router.route('/').post((req,res) => {
 		if( rows.length === 0 ){
 			res.status(201).json({
 				result: false,
-				msg: "이미 등록된 firebase_uid입니다.",
+				msg: "이미 등록된 uid입니다.",
 			});
 			return;
 		}
@@ -52,9 +52,9 @@ router.route('/').post((req,res) => {
 		return;
 	}
 
-	const firebase_uid = req.body.firebase_uid;
-	console.log("firebase_uid",firebase_uid);
-	admin.auth().createCustomToken(firebase_uid)
+	const uid = req.body.uid;
+	console.log("uid",uid);
+	admin.auth().createCustomToken(uid)
 	.then(function(customToken) {
 
 			console.log( customToken );
