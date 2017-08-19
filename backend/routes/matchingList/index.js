@@ -14,7 +14,7 @@ router.route('/').get((req,res) => {
 			return;
 		}
         if( rows.length === 1 ){
-            mainAnswer = rows[0].answer;
+            mainAnswer = JSON.parse( rows[0].answer );
             CheckOthersAnswer( mainAnswer );
 		}else{
             res.status(201).json({
@@ -36,13 +36,58 @@ router.route('/').get((req,res) => {
     			return;
     		}
             console.log("before transforming rows's value",rows);
-            try{ rows = JSON.parse( JSON.stringify(rows) ); }
-            catch(e){ console.log("JSON.stringify, JSON.parse error ",e); }
+            
+			try{ rows = JSON.parse( JSON.stringify (rows)); } 
+			catch(e){ console.log("JSON.stringify, JSON.parse error ",e); }
             console.log("after transforming rows's value",rows);
+			
+			
 
-            console.log(mainAnswer[0],mainAnswer[1],mainAnswer[2]);
-            console.log("rows[0].answer[0]은?",rows[0].answer[0]);
-            res.send(rows);
+			let arr = [];
+			for(let i = 0; i< rows.length ; i++)
+				arr.push(JSON.parse( rows[i].answer));
+
+           	
+			let ScoreArr = [];
+			for(let i = 0 ; i< arr.length ; i++){
+
+			let Arr = arr[i];
+			let Score = 0;
+			if( Arr[0] == mainAnswer[0] ){
+				Score += 33;
+				console.log(Score);
+
+			}
+
+			if( Arr[1] == mainAnswer[1] ){
+
+				 Score += 33;
+				                 console.log(Score);
+			}
+
+			if(Arr[2] == mainAnswer[2] ){
+
+				 Score += 33;
+				                 console.log(Score);
+			}
+			if( Score === 99) {Score = 100;}
+				ScoreArr.push(Score);
+
+			}
+
+		
+			for( let i =0 ; i<rows.length ; i++)
+			{	
+				
+				
+				let Row = rows[i];
+				
+				Row.matchingPercent = ScoreArr[i];
+			}
+			
+			
+			console.log(typeof rows[0],rows[0]);
+			res.send(rows);
     		// if( rows.length === 1 ){
     		// 	res.status(201).json({
     		// 		result: true,
