@@ -20,17 +20,17 @@ router.route('/').get((req,res) => {
 
         let scheduleDuration = ''+rows.minDate+'~'+rows.maxDate+'';
 
-        let UserDatas;
+        let UserDatas = {};
         UserDatas.name = rows.name;
         UserDatas.country = rows.country;
         UserDatas.gender = rows.gender;
 
-        let Schedule;
+        let Schedule = {} ;
         Schedule.destination = rows.destination;
         Schedule.schedule = scheduleDuration;
 
 
-        let Data;
+        let Data= {} ;
         Data.userDatas = UserDatas;
         Data.scheduleDatas = Schedule;
         Data.answer = rows.answer;
