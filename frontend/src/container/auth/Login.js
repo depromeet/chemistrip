@@ -24,7 +24,7 @@ class Login extends Component {
 
         await firebase.auth().signInWithEmailAndPassword(values.email, values.password)
         .then(function(response){
-            console.log(response.code);
+            localStorage.setItem('chemistrip_token', firebase.auth().currentUser.uid);
             that.props.history.push("/profile-input");
         })
         .catch(function(error) {

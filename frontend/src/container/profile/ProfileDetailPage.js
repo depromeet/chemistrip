@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {ProfileDetail} from '../../components/profile';
 import {withRouter} from 'react-router-dom';
+import axios from 'axios';
+import {DEFAULT_REQUEST_URL} from '../../constants';
 
 class ProfileDetailPage extends Component {
     state = {
@@ -32,6 +34,25 @@ class ProfileDetailPage extends Component {
                 "레져스포츠", "크러빙", "하이킹", "등등"
             ],
         }
+    }
+    submitData = async () => {
+        await Promise.all([axios.get(DEFAULT_REQUEST_URL + '/profile-detail?firebaseToken='
+        +localStorage.getItem('chemistrip_token')+'&id='+this.props.match.params.id)
+                .then(response => {
+                    console.log(response.data);
+                    this.setState({
+                        datas: response.data.datas,
+                        scheduleDatas: response.data.scheduleDatas,
+                        preferenceDatas: response.data.preferenceDatas
+                    });
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+            ]);
+    }
+    componentWillMount(){
+        this.submitData();
     }
     closeCallback = () => {
         this.props.history.push('/matching-result');

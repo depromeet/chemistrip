@@ -7,6 +7,9 @@ import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import {withRouter} from 'react-router-dom';
 
+import axios from 'axios';
+import {DEFAULT_REQUEST_URL} from '../../constants';
+
 class MatchingResultPage extends Component {
     state = {
         datas:  [
@@ -30,6 +33,20 @@ class MatchingResultPage extends Component {
     		}
 	    ]
     }
+    submitData = async () => {
+        await Promise.all([axios.get(DEFAULT_REQUEST_URL + '/matching-list?firebaseToken='+localStorage.getItem('chemistrip_token'))
+                .then(response => {
+                    console.log(response.data);
+                    this.setState({ datas: response.data.datas });
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+            ]);
+    }
+    componentWillMount(){
+        this.submitData();
+    }
     render() {
         return(
             <Container text>
@@ -39,7 +56,7 @@ class MatchingResultPage extends Component {
                     />
                 <MatchingItemList
                     datas={this.state.datas}
-                    itemClickCallback={() => this.props.history.push('/profile-detail')}
+                    itemClickCallback={(id) => this.props.history.push('/profile-detail?id='+id)}
                     />
             </Container>
         );

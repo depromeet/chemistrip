@@ -9,6 +9,9 @@ import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
+import axios from 'axios';
+
+import {DEFAULT_REQUEST_URL} from '../../constants';
 
 const QNACard = ({question, imageSrc}) => (
     <div style={{textAlign: 'center'}}>
@@ -29,7 +32,15 @@ class QNAPage extends Component {
                     imageSrc: "/test.png"
                 },
                 {
-                    question: "질문 2",
+                    question: "게임 좋아하세요?",
+                    imageSrc: "/test.png"
+                },
+                {
+                    question: "서핑 좋아하세요?",
+                    imageSrc: "/test.png"
+                },
+                {
+                    question: "노는거 좋아하세요?",
                     imageSrc: "/test.png"
                 },
                 {
@@ -38,15 +49,32 @@ class QNAPage extends Component {
                 }
             ],
             answer: [
-                true, true, true
+                true, true, true, true, true
             ]
         }
+    }
+    submitData = async () => {
+        const history = this.props.history;
+
+        await Promise.all([axios.post(DEFAULT_REQUEST_URL + '/qna/',{
+            firebaseToken: localStorage.getItem('chemistrip_token'),
+            answer: this.state.answer
+        })
+                .then(response => {
+                    history.push('/matching-result');
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    history.push('/matching-result');
+                    console.log(error);
+                })
+            ]);
     }
     OXCallBack = (bOX) => {
         this.refs.reactSwipe.next();
 
         if(this.state.swipeIndex+1 >= this.state.questionDatas.length)
-            this.props.history.push('/matching-result');
+            this.submitData();
 
         let cpAnswer = this.state.answer;
         cpAnswer[this.state.swipeIndex] = bOX;

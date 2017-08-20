@@ -2,7 +2,7 @@ import React from 'react';
 import {ListItem, Avatar, CircularProgress} from 'material-ui';
 import {grey400, darkBlack, lightBlack} from 'material-ui/styles/colors';
 
-const MatchingItem = ({itemClickCallback, profileSrc, gender, age, matchingPercent,maxDate, minDate, name}) => (
+const MatchingItem = ({itemClickCallback, id, profileSrc, gender, age, matchingPercent,maxDate, minDate, name}) => (
     <div>
         <ListItem
             rightAvatar={
@@ -32,7 +32,7 @@ const MatchingItem = ({itemClickCallback, profileSrc, gender, age, matchingPerce
             innerDivStyle = {
                 {marginLeft: '20px'}
             }
-            onClick={itemClickCallback}
+            onClick={(id) => itemClickCallback(id)}
         >
         </ListItem>
     </div>

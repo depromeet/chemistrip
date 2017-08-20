@@ -15,7 +15,6 @@ const route = (
                 <Route exact path="/" component={App}/>
                 <Route path="/profile-input" component={ProfileInputPage} />
                 <Route path="/login" component={Login} />
-                <Route path="/signup" component={SignUp} />
                 <Route path="/qna" component={QNAPage} />
                 <Route path="/matching-result" component={MatchingResultPage} />
                 <Route path="/profile-detail" component={ProfileDetailPage} />

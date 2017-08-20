@@ -22,8 +22,11 @@ class ProfileInputPage extends Component {
         nameValue: "",
         memberCount: 1,
         preferGenderSelectedValue: 0,
+        destination: "",
         minDate: '',
         maxDate: '',
+        minAge: '25',
+        maxAge: '30',
     }
     handleMinDateChange = (event, minDate) => this.setState({ minDate });
     handleMaxDateChange = (event, maxDate) => this.setState({ maxDate });
@@ -46,20 +49,26 @@ class ProfileInputPage extends Component {
             });
             return;
         }
-        const stateCopy = { ...this.state };
 
-        delete stateCopy.countryNames;
-        delete stateCopy.value;
+        const s = this.state;
 
         const sendValues = {
-            ...stateCopy,
-            genderSelectedValue: (this.state.genderSelectedValue === 0) ? "male" : "female",
-            countryName: this.state.countryNames[this.state.value-1],
-            token: localStorage.getItem('chemistrip_token')
+            gender: (s.genderSelectedValue === 0) ? "male" : "female",
+            birthDate: s.yearValue + "-" + s.monthValue + "-" + s.dayValue,
+            countryName: s.countryNames[s.value-1],
+            name: s.nameValue,
+            destination: s.destination,
+            minDate: s.minDate,
+            maxDate: s.maxDate,
+            minAge: s.minAge,
+            maxAge: s.maxAge,
+            preferenceGender: (s.preferGenderSelectedValue === 0) ? 'male' : 'female',
+            memberCount: s.memberCount,
+            firebaseToken: localStorage.getItem('chemistrip_token')
         };
         const history = this.props.history;
 
-        await Promise.all([axios.post(DEFAULT_REQUEST_URL + '/basic-profile/',sendValues)
+        await Promise.all([axios.post(DEFAULT_REQUEST_URL + '/profile-input/',sendValues)
                 .then(response => {
                     console.log(response.data);
                     history.push("/qna");
