@@ -12,6 +12,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import route from './route';
 import store from './store';
 
+
 injectTapEventPlugin();
 
 ReactDOM.render(

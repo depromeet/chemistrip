@@ -1,7 +1,7 @@
-import BasicProfilePage from './BasicProfilePage';
 import ProfileInputPage from './ProfileInputPage';
+import ProfileDetailPage from './ProfileDetailPage';
 
 export{
-    BasicProfilePage,
-    ProfileInputPage
+    ProfileInputPage,
+    ProfileDetailPage
 }
